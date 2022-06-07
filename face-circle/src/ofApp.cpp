@@ -4,6 +4,8 @@
 void ofApp::setup(){
     cam.setup(1280, 720);
     tracker.setup();
+    
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 }
 
 //--------------------------------------------------------------
@@ -13,13 +15,44 @@ void ofApp::update(){
     if (cam.isFrameNew()) {
         tracker.update(cam);
     }
+    
+    path.clear();
+    if (tracker.getInstances().size() != 0) {
+        currentFace = tracker.getInstances()[0].getLandmarks().getImageFeature(ofxFaceTracker2Landmarks::FACE_OUTLINE);
+        path = polylineToPath(currentFace);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofSetBackgroundColor(255);
+//    cam.draw(0, 0);
+//    tracker.drawDebug();
+//    tracker.drawDebugPose();
+    fbo.begin();
+    ofClear(255);
+    path.draw();
+    fbo.end();
+    
+    fbo.draw(0, 0);
+
+    cam.getTexture().setAlphaMask(fbo.getTexture());
     cam.draw(0, 0);
-    tracker.drawDebug();
-    tracker.drawDebugPose();
+}
+
+ofPath ofApp::polylineToPath(ofPolyline &polyline) {
+    ofPath path;
+    
+    for (int i = 0; i < polyline.size(); i++) {
+        if (i == 0) {
+            path.newSubPath();
+            path.moveTo(polyline[i]);
+        } else {
+            path.lineTo(polyline[i]);
+        }
+    }
+    
+    return path;
 }
 
 //--------------------------------------------------------------

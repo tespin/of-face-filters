@@ -22,11 +22,15 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    ofVideoGrabber cam;
-    ofxFaceTracker2 tracker;
-    ofPolyline currentFace;
-    ofPath path;
+        ofPath polylineToPath(ofPolyline& polyline);
     
-    ofFbo fbo;
+        ofVideoGrabber cam;
+        ofxFaceTracker2 tracker;
+        ofPolyline currentFace;
+        ofPath path;
+        
+        ofFbo fbo;
+        ofImage img;
+        ofPixels mask;
 		
 };
