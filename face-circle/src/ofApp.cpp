@@ -6,6 +6,7 @@ void ofApp::setup(){
     tracker.setup();
     
     fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    fbo2.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 }
 
 //--------------------------------------------------------------
@@ -19,7 +20,8 @@ void ofApp::update(){
     path.clear();
     if (tracker.getInstances().size() != 0) {
         currentFace = tracker.getInstances()[0].getLandmarks().getImageFeature(ofxFaceTracker2Landmarks::FACE_OUTLINE);
-        path = polylineToPath(currentFace);
+        glm::vec3 center = currentFace.getCentroid2D();
+        path.circle(center, 300);
     }
 }
 
@@ -34,10 +36,16 @@ void ofApp::draw(){
     path.draw();
     fbo.end();
     
-    fbo.draw(0, 0);
+//    fbo.draw(0, 0);
 
     cam.getTexture().setAlphaMask(fbo.getTexture());
+    fbo2.begin();
+    ofClear(255);
     cam.draw(0, 0);
+    fbo2.end();
+    
+    fbo2.draw(0, 0);
+    
 }
 
 ofPath ofApp::polylineToPath(ofPolyline &polyline) {

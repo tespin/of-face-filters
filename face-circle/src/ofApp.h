@@ -30,7 +30,8 @@ class ofApp : public ofBaseApp{
         ofPath path;
         
         ofFbo fbo;
+        ofFbo fbo2;
         ofImage img;
-        ofPixels mask;
+        ofPixels pixels;
 		
 };
