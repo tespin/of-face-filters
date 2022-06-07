@@ -5,3 +5,5 @@ To Do
 - eye circle
 - smooth polyline position
 - webcam segmentation
+- add resolution parameter to circle building
+
