@@ -26,7 +26,7 @@ class ofApp : public ofBaseApp{
     
         ofVideoGrabber cam;
         ofxFaceTracker2 tracker;
-        ofPolyline currentFace;
+//        ofPolyline currentFace;
         ofPath path;
         
         ofFbo fbo;

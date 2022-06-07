@@ -18,11 +18,18 @@ void ofApp::update(){
     }
     
     path.clear();
-    if (tracker.getInstances().size() != 0) {
-        currentFace = tracker.getInstances()[0].getLandmarks().getImageFeature(ofxFaceTracker2Landmarks::FACE_OUTLINE);
-        glm::vec3 center = currentFace.getCentroid2D();
-        path.circle(center, 300);
+    
+    std::vector<ofxFaceTracker2Instance> instances = tracker.getInstances();
+    if (instances.size() == 0) {
+        return;
     }
+    
+    ofxFaceTracker2Landmarks landmarks = instances[0].getLandmarks();
+    ofRectangle bounds = instances[0].getBoundingBox();
+    ofPolyline face = landmarks.getImageFeature(ofxFaceTracker2Landmarks::FACE_OUTLINE);
+    
+    glm::vec3 center = face.getCentroid2D();
+    path.circle(center, 300);
 }
 
 //--------------------------------------------------------------
