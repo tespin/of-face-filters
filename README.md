@@ -6,4 +6,4 @@ To Do
 - smooth polyline position
 - webcam segmentation
 - add resolution parameter to circle building
-
+- try ofmesh and texture coordinates
